@@ -1,10 +1,10 @@
 package abclientstate
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/friendsofgo/errors"
 	"github.com/gorilla/securecookie"
 	"github.com/volatiletech/authboss/v3"
 )
@@ -109,7 +109,7 @@ func (c CookieStorer) WriteState(w http.ResponseWriter, state authboss.ClientSta
 		case authboss.ClientStateEventPut:
 			encoded, err := c.SecureCookie.Encode(ev.Key, ev.Value)
 			if err != nil {
-				return errors.Wrap(err, "failed to encode cookie")
+				return fmt.Errorf("failed to encode cookie: %w", err)
 			}
 
 			cookie := &http.Cookie{
